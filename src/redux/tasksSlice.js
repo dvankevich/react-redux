@@ -17,31 +17,22 @@ const slice = createSlice({
   },
   // Об'єкт case-редюсерів
   reducers: {
-    addTask: (state, action) => {
-      return {
-        ...state,
-        items: [...state.items, action.payload],
-      };
+    addTask(state, action) {
+      // ✅ Immer замінить це на операцію оновлення
+      state.items.push(action.payload);
     },
-    deleteTask: (state, action) => {
-      return {
-        ...state,
-        items: state.items.filter((task) => task.id !== action.payload),
-      };
+    deleteTask(state, action) {
+      // ✅ Immer замінить це на операцію оновлення
+      state.items = state.items.filter((item) => item.id !== action.payload);
     },
-    toggleCompleted: (state, action) => {
-      return {
-        ...state,
-        items: state.items.map((task) => {
-          if (task.id !== action.payload) {
-            return task;
-          }
-          return {
-            ...task,
-            completed: !task.completed,
-          };
-        }),
-      };
+    toggleCompleted(state, action) {
+      // ✅ Immer замінить це на операцію оновлення
+      for (const task of state.items) {
+        if (task.id === action.payload) {
+          task.completed = !task.completed;
+          break;
+        }
+      }
     },
   },
 });
