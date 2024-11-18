@@ -15,50 +15,50 @@ const initialState = {
   },
 };
 
-const rootReducer = (state = initialState, action) => {
-  // Редюсер розрізняє екшени за значенням властивості type
+// Відповідає лише за оновлення властивості tasks
+// Значенням параметра state буде об'єкт завдань
+const tasksReducer = (state = initialState.tasks, action) => {
   switch (action.type) {
-    // Залежно від типу екшену виконуватиметься різна логіка
     case "tasks/addTask": {
-      // Потрібно повернути копію об'єкту поточного стану
-      // в якому є всі дані існуючого стану
       return {
         ...state,
-        tasks: {
-          // та новий масив задач в якому є всі існуючі завдання
-          // та об'єкт нового завдання
-          items: [...state.tasks.items, action.payload],
-        },
+        items: [...state.items, action.payload],
       };
     }
+
     case "tasks/deleteTask":
       return {
         ...state,
-        tasks: {
-          items: state.tasks.items.filter((task) => task.id !== action.payload),
-        },
+        items: state.items.filter((task) => task.id !== action.payload),
       };
+
     case "tasks/toggleCompleted":
       return {
         ...state,
-        tasks: {
-          items: state.tasks.items.map((task) => {
-            if (task.id !== action.payload) {
-              return task;
-            }
-            return {
-              ...task,
-              completed: !task.completed,
-            };
-          }),
-        },
+        items: state.items.map((task) => {
+          if (task.id !== action.payload) {
+            return task;
+          }
+          return {
+            ...task,
+            completed: !task.completed,
+          };
+        }),
       };
+
+    default:
+      return state;
+  }
+};
+
+// Відповідає лише за оновлення властивості filters
+// Значенням параметра state буде об'єкт фільтрів
+const filtersReducer = (state = initialState.filters, action) => {
+  switch (action.type) {
     case "filters/setStatusFilter":
       return {
         ...state,
-        filters: {
-          status: action.payload,
-        },
+        status: action.payload,
       };
 
     default:
@@ -67,5 +67,8 @@ const rootReducer = (state = initialState, action) => {
 };
 
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    tasks: tasksReducer,
+    filters: filtersReducer,
+  },
 });
