@@ -3,7 +3,7 @@
 // 1. Імпортуємо хук
 import { useDispatch } from "react-redux";
 // 2. Імпортуємо фабрику екшену
-import { addTask } from "../../redux/actions";
+import { addTask } from "../../redux/tasksSlice";
 
 export const TaskForm = () => {
   // 3. Отримуємо посилання на функцію відправки екшенів
