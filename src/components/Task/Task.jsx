@@ -1,7 +1,8 @@
-import { useDispatch } from 'react-redux';
-import { MdClose } from 'react-icons/md';
-import { deleteTask, toggleCompleted } from '../../redux/actions';
-import css from './Task.module.css';
+import { useDispatch } from "react-redux";
+import { MdClose } from "react-icons/md";
+import { deleteTask, toggleCompleted } from "../../redux/tasksSlice";
+import css from "./Task.module.css";
+import PropTypes from "prop-types";
 
 export const Task = ({ task }) => {
   const dispatch = useDispatch();
@@ -24,4 +25,13 @@ export const Task = ({ task }) => {
       </button>
     </div>
   );
+};
+
+// Додаємо валідацію пропсів
+Task.propTypes = {
+  task: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    completed: PropTypes.bool.isRequired,
+  }).isRequired,
 };
